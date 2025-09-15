@@ -32,6 +32,8 @@ import java.util.Scanner;
 
 public class DistanceMultiple {
     public static void main(String[] args) {
-        
-}
 
+
+    }
+
+}
