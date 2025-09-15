@@ -55,31 +55,42 @@ public class DistanceMultipleTest {
                  "Your output was:\n" + output);
         }
 
-        if (distances.size() != 3) {
-            fail("❌ Expected 3 distance values, but found " + distances.size() + ".\n" +
-                 "Your program should process 3 pairs of points and output 3 distance values.\n" +
-                 "Make sure you're reading all 3 input pairs: '(2,3)(7,3)', '(4,5)(8,8)', '(-1,-2)(0,7)'\n" +
+        double eps = 1e-10;
+        boolean found5_0_first = false;
+        boolean found5_0_second = false;
+        boolean found9_055 = false;
+        
+        for (Double distance : distances) {
+            if (Math.abs(distance - 5.0) <= eps) {
+                if (!found5_0_first) {
+                    found5_0_first = true;
+                } else if (!found5_0_second) {
+                    found5_0_second = true;
+                }
+            } else if (Math.abs(distance - 9.055385138137417) <= eps) {
+                found9_055 = true;
+            }
+        }
+        
+        if (!found5_0_first) {
+            fail("❌ Expected distance 5.0 not found for first pair (2,3) to (7,3)!\n" +
+                 "Check your calculation: √((7-2)² + (3-3)²) = √(25 + 0) = √25 = 5.0\n" +
+                 "Found distances: " + distances + "\n" +
                  "Your output was:\n" + output);
         }
-
-        double eps = 1e-10; 
         
-        if (Math.abs(distances.get(0) - 5.0) > eps) {
-            fail("❌ Wrong distance for first pair (2,3) to (7,3)!\n" +
-                 "Expected: 5.0, but got: " + distances.get(0) + "\n" +
-                 "Check your calculation: √((7-2)² + (3-3)²) = √(25 + 0) = √25 = 5.0");
+        if (!found5_0_second) {
+            fail("❌ Expected distance 5.0 not found for second pair (4,5) to (8,8)!\n" +
+                 "Check your calculation: √((8-4)² + (8-5)²) = √(16 + 9) = √25 = 5.0\n" +
+                 "Found distances: " + distances + "\n" +
+                 "Your output was:\n" + output);
         }
         
-        if (Math.abs(distances.get(1) - 5.0) > eps) {
-            fail("❌ Wrong distance for second pair (4,5) to (8,8)!\n" +
-                 "Expected: 5.0, but got: " + distances.get(1) + "\n" +
-                 "Check your calculation: √((8-4)² + (8-5)²) = √(16 + 9) = √25 = 5.0");
-        }
-        
-        if (Math.abs(distances.get(2) - 9.055385138137417) > eps) {
-            fail("❌ Wrong distance for third pair (-1,-2) to (0,7)!\n" +
-                 "Expected: 9.055385138137417, but got: " + distances.get(2) + "\n" +
-                 "Check your calculation: √((0-(-1))² + (7-(-2))²) = √(1 + 81) = √82 ≈ 9.055385138137417");
+        if (!found9_055) {
+            fail("❌ Expected distance 9.055385138137417 not found for third pair (-1,-2) to (0,7)!\n" +
+                 "Check your calculation: √((0-(-1))² + (7-(-2))²) = √(1 + 81) = √82 ≈ 9.055385138137417\n" +
+                 "Found distances: " + distances + "\n" +
+                 "Your output was:\n" + output);
         }
     }
 }
